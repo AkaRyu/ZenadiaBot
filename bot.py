@@ -446,7 +446,7 @@ async def on_ready():
     await client.add_reaction(Moji, emoji='👊')
 @client.event
 async def on_reaction_add(reaction, user):
-    if reaction.message.channel.id != verifid:
+    if reaction.message.channel.id != "561662797876953110":
         return
     if reaction.emoji == "👊":
         if user.id !="564063354319273984":
