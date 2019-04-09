@@ -450,7 +450,7 @@ async def on_reaction_add(reaction, user):
         return
     if reaction.emoji == "👊":
         if user.id !="564063354319273984":
-            Role = discord.utils.get(user.server.roles, name="『Vérifié』")
+            Role = discord.utils.get(user.server.roles, name="Vérifié")
             await client.add_roles(user, Role)
             await client.send_message(user, "Vous avez reçu le grade vérifié ! Bienvenue dans Zénadia")
 
