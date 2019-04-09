@@ -141,7 +141,7 @@ async def info(ctx):
     **TeamSpeak:** *Tu me diras ce que je mets*
     __**Staff du serveur**__
     **Fondateur**:__XeTrOS__
-    **Fondateur**:__King Noctis__
+    **Fondateur**:__WɎṈ0X__
     **Développeur**:__Ts3hostinger__
     **Développeur**:__Pingouin 2 combat__
     **Développeur**:__Lidras__
@@ -150,7 +150,7 @@ async def info(ctx):
     **Administrateur**:__TheGameurZeph__
     **Modérateur**:__Felix15__
     **Modérateur**:__Keyzo__
-    **Buildeurs**:__EvanPvP__ / __Weez Sweez__ / Oméga Thauwne
+    **Buildeurs**:__EvanPvP__ / __Weez Sweez__ / __Oméga Thauwne__
     **Helpeurs**:__Akayto__ / __Matteo__
     
     *Bot Créé par* **__AkaRyu#1962__**
@@ -495,7 +495,8 @@ async def on_member_join(member):
         colour=discord.Colour.gold()
     )
     embed.set_author(name="Bienvenue !")
-    await client.send_message(client.get_channel("565254274343501825"),embed=embed)
+    channel1=client.get_channel("565254274343501825")
+    await client.send_message(channel1,embed=embed)
 
 #-Fin du code, lancement-#
 client.loop.create_task(my_background_task())
