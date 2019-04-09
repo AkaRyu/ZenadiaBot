@@ -51,10 +51,13 @@ ticketlist = []
 channelmute=[]
 antispamakaryu=[]
 antispamakaryuvalue=[]
-loopid="564881774795292692"
+loopid="561636466543820822"
 verifid="564882388870627350"
 msgverifid="564882746489700352"
 dejaverif=[]
+admin="Permission du bot"
+concour="561687383867654146"
+#--------------------------Initialisation du bot---------------------------#
 #--------------------------Initialisation du bot---------------------------#
 
 async def msg_loop():
@@ -67,7 +70,7 @@ async def msg_loop():
         )
         embed.set_author(name="Message automatique")
 
-        await client.send_message(client.get_channel(loopid), embed=embed)
+        await client.send_message(client.get_channel("561636466543820822"), embed=embed)
         await asyncio.sleep(4900)
         msg = "Pensez à visiter notre boutique si vous aimez le serveur!"
         embed = discord.Embed(
@@ -76,7 +79,7 @@ async def msg_loop():
         )
         embed.set_author(name="Message automatique")
 
-        await client.send_message(client.get_channel(loopid), embed=embed)
+        await client.send_message(client.get_channel("561636466543820822"), embed=embed)
         await asyncio.sleep(4900)
 
 
@@ -84,10 +87,10 @@ async def msg_loop():
 async def my_background_task():
     await client.wait_until_ready()
     while not client.is_closed:
-        antispamakaryu = []
-        antispamakaryuvalue=[]
+        del antispamakaryu[:]
+        del antispamakaryuvalue[:]
 
-        await asyncio.sleep(10)  # task runs every 60 seconds
+        await asyncio.sleep(8)
 
 
 
@@ -124,8 +127,17 @@ def is_number(s):
 
 @client.command(pass_context=True)
 async def info(ctx):
+    online=0
+    for e in ctx.message.server.members:
+        if e.status!=discord.Status.offline:
+            online+=1
+    total=0
+    for e in ctx.message.server.members:
+        total+=1
     aide = """**Info sur __Zenadia__**:
     **Lien du site:** *http://zenadia.fr/maintenance*
+    **Joueurs en ligne**:*{}*
+    **Nombres de joueurs sur le serveur**:*{}*
     **TeamSpeak:** *Tu me diras ce que je mets*
     __**Staff du serveur**__
     **Fondateur**:__XeTrOS__
@@ -142,7 +154,7 @@ async def info(ctx):
     **Helpeurs**:__Akayto__ / __Matteo__
     
     *Bot Créé par* **__AkaRyu#1962__**
-    """
+    """.format(online,total)
     timecommand = 0
     user = ctx.message.author
     embed = discord.Embed(
@@ -181,7 +193,7 @@ async def addticket(ctx, *, msg=''):
 
 
 @client.command(pass_context=True)
-@commands.has_role("dddd")
+@commands.has_role(admin)
 async def showtickets(ctx):
     timecommand = 0
     author = ctx.message.author.id
@@ -191,7 +203,7 @@ async def showtickets(ctx):
 
 
 @client.command(pass_context=True)
-@commands.has_role("dddd")
+@commands.has_role(admin)
 async def nextticket(ctx):
     timecommand = 0
     author = ctx.message.author.id
@@ -200,7 +212,7 @@ async def nextticket(ctx):
 
 
 @client.command(pass_context=True)
-@commands.has_role("dddd")
+@commands.has_role(admin)
 async def ticketvalide(ctx):
     timecommand = 0
     author = ctx.message.author.id
@@ -227,6 +239,8 @@ async def aide(ctx):
     z.spamstop -> Débloque un channel.
     z.giveaway durée(nombre à virgule, 1=1heure) nombres de gagnants(entier) Gain
     z.kickplayer @Personne#xxxx -> Kick la personne en question. 
+    z.ban @Personne#xxxx x -> Ban la personne en question pour x jours
+    z.sondage durée(nombre à virgule, 1=1heure) message
     """
     timecommand = 0
     user = ctx.message.author
@@ -238,7 +252,7 @@ async def aide(ctx):
     await client.send_message(ctx.message.author, embed=embed)
 
 @client.command(pass_context=True)
-@commands.has_role("dddd")
+@commands.has_role(admin)
 async def clear(ctx, amount=1):
     timecommand = 0
     userID = ctx.message.author.id
@@ -254,7 +268,7 @@ async def clear(ctx, amount=1):
 
 
 @client.command(pass_context=True)
-@commands.has_role("dddd")
+@commands.has_role(admin)
 async def showblockusers(ctx):
     timecommand = 0
     author = ctx.message.author.id
@@ -262,7 +276,7 @@ async def showblockusers(ctx):
 
 
 @client.command(pass_context=True)
-@commands.has_role("dddd")
+@commands.has_role(admin)
 async def block(ctx):
     timecommand = 0
     user = ctx.message.mentions[0].id
@@ -270,7 +284,7 @@ async def block(ctx):
 
 
 @client.command(pass_context=True)
-@commands.has_role("dddd")
+@commands.has_role(admin)
 async def unblock(ctx):
     timecommand = 0
     if ctx.message.author.id in userlock:
@@ -302,7 +316,7 @@ async def msgtemp(ctx, int1 : int, *, msg=''):
     print("Delete by {} ".format(ctx.message.author.id))
 
 @client.command(pass_context = True)
-@commands.has_role("dddd")
+@commands.has_role(admin)
 async def spam(ctx):
     await client.say("Ce channel est désormais fermé !")
     if not ctx.message.channel.id in channelmute:
@@ -310,18 +324,59 @@ async def spam(ctx):
 
 
 @client.command(pass_context = True)
-@commands.has_role("dddd")
+@commands.has_role(admin)
 async def spamstop(ctx):
     await client.say("Ce channel est désormais ré-ouvert!")
     if ctx.message.channel.id in channelmute:
         channelmute.remove(ctx.message.channel.id)
 
 
+@client.command(pass_context = True)
+@commands.has_role(admin)
+async def sondage(ctx,duree:float,*,message : str):
+    msg="**SONDAGE**: {}".format(message)
+    embed = discord.Embed(
+        description=msg,
+        colour=discord.Colour.blue()
+    )
+    embed.set_author(name="Sondage")
+    msgnew = await client.send_message(client.get_channel("561688444980690984"), embed=embed)
+
+    await client.add_reaction(msgnew, emoji='👌')
+    await client.add_reaction(msgnew, emoji='⛔')
+    cache_msg = discord.utils.get(client.messages, id=msgnew.id)
+    await asyncio.sleep(duree * 3600)
+    actuel=1
+    pour=0
+    contre=0
+    for reactor in cache_msg.reactions:
+        reactors = await client.get_reaction_users(reactor)
+        for member in reactors:
+            if member.id !="564063354319273984":
+                if actuel==1:
+                    pour+=1
+                else:
+                    contre+=1
+        actuel+=1
+
+    if pour>contre:
+        msg="Le sondage a été accepté! : {} ".format(message)
+    elif contre>pour:
+        msg="Le sondage a été refusé! : {}".format(message)
+    else:
+        msg="Le sondage a fait égalité ! : {}".format(message)
+
+    embed = discord.Embed(
+        description=msg,
+        colour=discord.Colour.gold()
+    )
+    embed.set_author(name="Sondage terminé.")
+    await client.edit_message(msgnew, embed=embed)
 
 
 
 @client.command(pass_context = True)
-@commands.has_role("dddd")
+@commands.has_role(admin)
 async def giveaway(ctx,duree : float,gagnant:int, *,gain : str):
     msg="**GIVEAWAY ACTIF:** Proposé par : {}, temps d'activité: {}, nombre de gagnants : {}".format(ctx.message.author,duree,gagnant)
     embed = discord.Embed(
@@ -329,7 +384,7 @@ async def giveaway(ctx,duree : float,gagnant:int, *,gain : str):
         colour=discord.Colour.red()
     )
     embed.set_author(name="GIVEAWAY : {}".format(gain))
-    msgnew=await client.send_message(client.get_channel(loopid), embed=embed)
+    msgnew=await client.send_message(client.get_channel(concour), embed=embed)
     await client.add_reaction(msgnew, emoji='👊')
     await asyncio.sleep(duree*3600)
     listeparticipant=[]
@@ -368,11 +423,18 @@ async def giveaway(ctx,duree : float,gagnant:int, *,gain : str):
 
 
 @client.command(pass_context=True)
-@commands.has_role("dddd")
+@commands.has_role(admin)
 async def kickplayer(ctx):
     timecommand = 0
     user = ctx.message.mentions[0]
     await client.kick(user)
+
+@client.command(pass_context=True)
+@commands.has_role(admin)
+async def banplayer(ctx, days : int=1):
+    timecommand = 0
+    user = ctx.message.mentions[0]
+    await client.ban(user, days)
 
 
 
@@ -411,7 +473,8 @@ async def on_message(message):
         if message.author.id in antispamakaryu:
             index=antispamakaryu.index(message.author.id)
             antispamakaryuvalue[index]+=1
-            if antispamakaryuvalue[index]>=10:
+            print(antispamakaryuvalue[index])
+            if antispamakaryuvalue[index]>12:
                 userlock.append(message.author.id)
                 await client.send_message(message.author,"Vous avez été mute 1heure pour spam, vous pouvez vous plaindre en vocal cependant.")
                 await asyncio.sleep(3600)
@@ -438,4 +501,3 @@ async def on_member_join(member):
 client.loop.create_task(my_background_task())
 client.loop.create_task(msg_loop())
 client.run(token)
-print('yuy')
