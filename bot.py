@@ -495,7 +495,7 @@ async def on_member_join(member):
         colour=discord.Colour.gold()
     )
     embed.set_author(name="Bienvenue !")
-    await client.send_message(client.get_channel(loopid),embed=embed)
+    await client.send_message(client.get_channel("561636466543820822"),embed=embed)
 
 #-Fin du code, lancement-#
 client.loop.create_task(my_background_task())
