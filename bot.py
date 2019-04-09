@@ -440,7 +440,7 @@ async def banplayer(ctx, days : int=1):
 
 @client.event
 async def on_ready():
-    Channel = client.get_channel("565253658674069514")
+    Channel = client.get_channel("561662797876953110")
     Text= "Ajoute la réaction 👊 pour avoir le rôle vérifié"
     Moji = await client.send_message(Channel, Text)
     await client.add_reaction(Moji, emoji='👊')
