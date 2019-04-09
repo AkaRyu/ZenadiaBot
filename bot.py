@@ -440,7 +440,7 @@ async def banplayer(ctx, days : int=1):
 
 @client.event
 async def on_ready():
-    Channel = client.get_channel(verifid)
+    Channel = client.get_channel("565253658674069514")
     Text= "Ajoute la réaction 👊 pour avoir le rôle vérifié"
     Moji = await client.send_message(Channel, Text)
     await client.add_reaction(Moji, emoji='👊')
@@ -495,7 +495,7 @@ async def on_member_join(member):
         colour=discord.Colour.gold()
     )
     embed.set_author(name="Bienvenue !")
-    await client.send_message(client.get_channel("561636466543820822"),embed=embed)
+    await client.send_message(client.get_channel("565254274343501825"),embed=embed)
 
 #-Fin du code, lancement-#
 client.loop.create_task(my_background_task())
