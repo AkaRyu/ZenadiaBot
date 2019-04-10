@@ -149,7 +149,6 @@ async def info(ctx):
     **Administrateur**:__Lidras__
     **Administrateur**:__TheGameurZeph__
     **Modérateur**:__Felix15__
-    **Modérateur**:__Keyzo__
     **Buildeurs**:__EvanPvP__ / __Weez Sweez__ / __Oméga Thauwne__
     **Helpeurs**:__Akayto__ / __Matteo__
     
