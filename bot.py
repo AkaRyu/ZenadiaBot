@@ -63,7 +63,7 @@ concour="561687383867654146"
 async def msg_loop():
     await client.wait_until_ready()
     while not client.is_closed:
-        msg="Bon jeu sur Zenodia !"
+        msg="Bon jeu sur Zenadia !"
         embed = discord.Embed(
             description=msg,
             colour=discord.Colour.blue()
